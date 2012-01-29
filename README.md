@@ -1,7 +1,7 @@
 POSTMARK INBOUND HOOK
 =====================
 
-This is a simple API wrapper for Postmark Inbound Hook (http://developer.postmarkapp.com/developer-inbound.html) in Python inspired by @jjaffeux PHP API wrapper.
+This is a simple API wrapper for Postmark Inbound Hook (http://developer.postmarkapp.com/developer-inbound.html) in Python inspired by [jjaffeux](https://github.com/jjaffeux/) [PHP API wrapper](https://github.com/jjaffeux/postmark-inbound-php).
 
 
 Usage
