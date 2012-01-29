@@ -11,11 +11,11 @@ Usage
 from postmark import PostmarkInbound
 
 
-#load json
+# load json
 json_data = open('./tests/fixtures/valid_http_post.json').read()
 inbound = PostmarkInbound(json=json_data)
 
-/* Content */
+# content
 inbound.from_name();
 inbound.from_email();
 inbound.to();
@@ -27,16 +27,16 @@ inbound.reply_to();
 inbound.html_body();
 inbound.text_body();
 
-/* Headers */
+# headers
 inbound.headers();  //default to get Date
 inbound.headers('MIME-Version');
 inbound.headers('Received-SPF');
 
-/* Attachments */
+# attachments
 inbound.has_attachments(); //boolean
 attachments = inbound.attachments();
 
-first_attachment = $attachments[0];
+first_attachment = attachments[0];
 first_attachment.name();
 
 second_attachment = attachments[1];
@@ -49,7 +49,7 @@ for a in attachments:
 	a.download('./tests/', array('allowed_content_types' => 'image/png'), '10000');
 }
 
-/* Get raw data */
+# raw data
 inbound.json
 inbound.source
 ``` 
