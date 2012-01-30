@@ -6,8 +6,14 @@ from postmark import PostmarkInbound
 class PostmarkInboundTest(unittest.TestCase):
 
     def setUp(self):
-        json_data = open('fixtures/valid_http_post.json').read()
+        json_data = open('tests/fixtures/valid_http_post.json').read()
         self.inbound = PostmarkInbound(json=json_data)
+
+    def tearDown(self):
+        if os.path.exists('./tests/chart.png'):
+            os.remove('./tests/chart.png')
+        if os.path.exists('./tests/chart2.png'):
+            os.remove('./tests/chart2.png')
 
     def test_should_have_a_subject(self):
         assert 'Hi There' == self.inbound.subject()
@@ -60,6 +66,24 @@ class PostmarkInboundTest(unittest.TestCase):
     def test_should_have_header_received_spf(self):
         assert 'None (no SPF record) identity=mailfrom; client-ip=209.85.212.52; helo=mail-vw0-f52.google.com; envelope-from=bob@bob.com; receiver=4e8d6dec234dd90018e7bfd2b5d79107@inbound.postmarkapp.com' == self.inbound.headers('Received-SPF')
 
+    def test_default_spam_should_have_status(self):
+        assert 'No' == self.inbound.spam()
+
+    def test_should_have_spam_version(self):
+        assert 'SpamAssassin 3.3.1 (2010-03-16) on rs-mail1' == self.inbound.spam('X-Spam-Checker-Version')
+
+    def test_should_have_spam_status(self):
+        assert 'No' == self.inbound.spam('X-Spam-Status')
+
+    def test_should_have_spam_score(self):
+        assert '-0.8' == self.inbound.spam('X-Spam-Score')
+
+    def test_should_have_spam_test(self):
+        assert 'DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW' == self.inbound.spam('X-Spam-Tests')
+
+    def test_unknown_spam_should_return_false(self):
+        assert not self.inbound.spam('WTF')
+
     def test_should_have_two_attachments(self):
         assert 2 == len(self.inbound.attachments())
 
@@ -80,10 +104,10 @@ class PostmarkInboundTest(unittest.TestCase):
 
     def test_attachment_should_download(self):
         for a in self.inbound.attachments():
-            a.download('./')
+            a.download('./tests/')
 
-        assert True == os.path.exists('./chart.png')
-        assert True == os.path.exists('./chart2.png')
+        assert True == os.path.exists('./tests/chart.png')
+        assert True == os.path.exists('./tests/chart2.png')
 
 if __name__ == "__main__":
     unittest.main()

@@ -57,6 +57,13 @@ class PostmarkInbound(object):
     def html_body(self):
         return self.source['HtmlBody']
 
+    def spam(self, name='X-Spam-Status'):
+        for header in self.source['Headers']:
+            for key, value in header.iteritems():
+                if key == name:
+                    return value
+        return False
+
     def headers(self, name='Date'):
         for header in self.source['Headers']:
             if header['Name'] == name:
