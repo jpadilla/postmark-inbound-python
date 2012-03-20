@@ -111,4 +111,4 @@ Other libraries
 License
 ---------------------
 
-DON'T BE A DICK PUBLIC LICENSE
+MIT License
