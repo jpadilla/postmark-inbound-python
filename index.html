@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Postmark-inbound-python by jpadilla</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Postmark-inbound-python</h1>
+        <p>Python Wrapper for Postmark Inbound</p>
+        <p class="view"><a href="https://github.com/jpadilla/postmark-inbound-python">View the Project on GitHub <small>jpadilla/postmark-inbound-python</small></a></p>
+        <ul>
+          <li><a href="https://github.com/jpadilla/postmark-inbound-python/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/jpadilla/postmark-inbound-python/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/jpadilla/postmark-inbound-python">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>POSTMARK INBOUND HOOK</h1>
+
+<p>This is a simple API wrapper for Postmark Inbound Hook (<a href="http://developer.postmarkapp.com/developer-inbound.html">http://developer.postmarkapp.com/developer-inbound.html</a>) in Python inspired by <a href="https://github.com/jjaffeux/">jjaffeux</a> <a href="https://github.com/jjaffeux/postmark-inbound-php">PHP API wrapper</a>.</p>
+
+<h2>Usage</h2>
+
+<div class="highlight">
+<pre><span class="kn">from</span> <span class="nn">postmark</span> <span class="kn">import</span> <span class="n">PostmarkInbound</span>
+
+
+<span class="c"># load json</span>
+<span class="n">json_data</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'./tests/fixtures/valid_http_post.json'</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">inbound</span> <span class="o">=</span> <span class="n">PostmarkInbound</span><span class="p">(</span><span class="n">json</span><span class="o">=</span><span class="n">json_data</span><span class="p">)</span>
+
+<span class="c"># content</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">subject</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">sender</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">to</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">bcc</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">tag</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">message_id</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">mailbox_hash</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">reply_to</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">html_body</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">text_body</span><span class="p">()</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">send_date</span><span class="p">()</span>
+
+<span class="c"># headers</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">headers</span><span class="p">()</span>  <span class="c"># default to get Date</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="s">'MIME-Version'</span><span class="p">)</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="s">'Received-SPF'</span><span class="p">)</span>
+
+<span class="c"># spam</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="s">'X-Spam-Checker-Version'</span><span class="p">)</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="s">'X-Spam-Score'</span><span class="p">)</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="s">'X-Spam-Tests'</span><span class="p">)</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">headers</span><span class="p">(</span><span class="s">'X-Spam-Status'</span><span class="p">)</span>
+
+<span class="c"># attachments</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">has_attachments</span><span class="p">()</span> <span class="c"># boolean</span>
+<span class="n">attachments</span> <span class="o">=</span> <span class="n">inbound</span><span class="o">.</span><span class="n">attachments</span><span class="p">()</span>
+
+<span class="n">first_attachment</span> <span class="o">=</span> <span class="n">attachments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">first_attachment</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+
+<span class="n">second_attachment</span> <span class="o">=</span> <span class="n">attachments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">second_attachment</span><span class="o">.</span><span class="n">content_length</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">attachments</span><span class="p">:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">()</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">content_type</span><span class="p">()</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">content_length</span><span class="p">()</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s">'./tests/'</span><span class="p">,</span> <span class="p">[</span><span class="s">'image/png'</span><span class="p">],</span> <span class="s">'10000'</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c"># raw data</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">json</span>
+<span class="n">inbound</span><span class="o">.</span><span class="n">source</span>
+</pre>
+</div>
+
+
+<h2>Bug tracker</h2>
+
+<p>Have a bug? Please create an issue here on GitHub!</p>
+
+<h2>Contributions</h2>
+
+<ul>
+<li>Fork</li>
+<li>Write tests</li>
+<li>Write Code</li>
+<li>Pull request</li>
+</ul><p>Thanks for your help.</p>
+
+<h2>TODO</h2>
+
+<ul>
+<li>Write more tests</li>
+</ul><h2>Authors</h2>
+
+<p><strong>José Padilla</strong></p>
+
+<ul>
+<li><a href="http://twitter.com/jpadilla_">http://twitter.com/jpadilla_</a></li>
+<li><a href="http://github.com/jpadilla">http://github.com/jpadilla</a></li>
+</ul><h2>Inspiration</h2>
+
+<p>Thanks to <a href="https://github.com/jjaffeux/">jjaffeux</a> for the original PHP wrapper</p>
+
+<ul>
+<li><a href="https://github.com/jjaffeux">https://github.com/jjaffeux</a></li>
+<li><a href="https://github.com/jjaffeux/postmark-inbound-php">https://github.com/jjaffeux/postmark-inbound-php</a></li>
+</ul><h2>Other libraries</h2>
+
+<ul>
+<li>Ruby: <a href="https://github.com/r38y/postmark-mitt">https://github.com/r38y/postmark-mitt</a></li>
+<li>PHP: <a href="https://github.com/jjaffeux/postmark-inbound-php">https://github.com/jjaffeux/postmark-inbound-php</a></li>
+<li>Node.js + CouchDB: <a href="https://gist.github.com/1647808">https://gist.github.com/1647808</a></li>
+</ul><h2>License</h2>
+
+<p>MIT License</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/jpadilla">jpadilla</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+  </body>
+</html>
