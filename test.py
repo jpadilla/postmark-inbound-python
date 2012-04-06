@@ -19,10 +19,10 @@ class PostmarkInboundTest(unittest.TestCase):
         assert 'Hi There' == self.inbound.subject()
 
     def test_should_have_a_bcc(self):
-        assert 'FBI <hi@fbi.com>' == self.inbound.bcc()
+        assert 'hi@fbi.com' == self.inbound.bcc()
 
     def test_should_have_a_cc(self):
-        assert 'Your Mom <hithere@hotmail.com>' == self.inbound.cc()
+        assert 'sample.cc@emailDomain.com' == self.inbound.cc()[0]['Email']
 
     def test_should_have_a_reply_to(self):
         assert 'new-comment+sometoken@yeah.com' == self.inbound.reply_to()
@@ -37,13 +37,8 @@ class PostmarkInboundTest(unittest.TestCase):
         assert 'a8c1040e-db1c-4e18-ac79-bc5f64c7ce2c' == self.inbound.message_id()
 
     def test_should_be_from_someone(self):
-        pass
-
-    def test_should_pull_out_the_from_email(self):
-        assert 'bob@bob.com' == self.inbound.from_email()
-
-    def test_should_pull_out_the_from_name(self):
-        assert 'Bob Bobson' == self.inbound.from_name()
+        assert self.inbound.sender()['Name'] == 'Bob Bobson' and \
+            self.inbound.sender()['Email'] == 'bob@bob.com'
 
     def test_should_have_a_html_body(self):
         assert '<p>We no speak americano</p>' == self.inbound.html_body()
@@ -52,37 +47,25 @@ class PostmarkInboundTest(unittest.TestCase):
         assert '\nThis is awesome!\n\n' == self.inbound.text_body()
 
     def test_should_be_to_someone(self):
-        assert 'api-hash@inbound.postmarkapp.com' == self.inbound.to()
-
-    def test_default_header_should_have_date(self):
-        assert 'Thu, 31 Mar 2011 12:01:17 -0400' == self.inbound.headers()
-
-    def test_should_have_header_date(self):
-        assert 'Thu, 31 Mar 2011 12:01:17 -0400' == self.inbound.headers('Date')
+        assert 'api-hash@inbound.postmarkapp.com' == self.inbound.to()[0]['Email']
 
     def test_should_have_header_mime_version(self):
         assert '1.0' == self.inbound.headers('MIME-Version')
 
     def test_should_have_header_received_spf(self):
-        assert 'None (no SPF record) identity=mailfrom; client-ip=209.85.212.52; helo=mail-vw0-f52.google.com; envelope-from=bob@bob.com; receiver=4e8d6dec234dd90018e7bfd2b5d79107@inbound.postmarkapp.com' == self.inbound.headers('Received-SPF')
-
-    def test_default_spam_should_have_status(self):
-        assert 'No' == self.inbound.spam()
+        assert 'Pass (sender SPF authorized) identity=mailfrom; client-ip=209.85.160.180; helo=mail-gy0-f180.google.com; envelope-from=myUser@theirDomain.com; receiver=451d9b70cf9364d23ff6f9d51d870251569e+ahoy@inbound.postmarkapp.com' == self.inbound.headers('Received-SPF')
 
     def test_should_have_spam_version(self):
-        assert 'SpamAssassin 3.3.1 (2010-03-16) on rs-mail1' == self.inbound.spam('X-Spam-Checker-Version')
+        assert 'SpamAssassin 3.3.1 (2010-03-16) onrs-ord-pm-inbound1.wildbit.com' == self.inbound.headers('X-Spam-Checker-Version')
 
     def test_should_have_spam_status(self):
-        assert 'No' == self.inbound.spam('X-Spam-Status')
+        assert 'No' == self.inbound.headers('X-Spam-Status')
 
     def test_should_have_spam_score(self):
-        assert '-0.8' == self.inbound.spam('X-Spam-Score')
+        assert '-0.1' == self.inbound.headers('X-Spam-Score')
 
     def test_should_have_spam_test(self):
-        assert 'DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW' == self.inbound.spam('X-Spam-Tests')
-
-    def test_unknown_spam_should_return_false(self):
-        assert not self.inbound.spam('WTF')
+        assert 'DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,SPF_PASS' == self.inbound.headers('X-Spam-Tests')
 
     def test_should_have_two_attachments(self):
         assert 2 == len(self.inbound.attachments())
@@ -108,6 +91,9 @@ class PostmarkInboundTest(unittest.TestCase):
 
         assert True == os.path.exists('./tests/chart.png')
         assert True == os.path.exists('./tests/chart2.png')
+
+    def test_send_date(self):
+        assert 2012 == self.inbound.send_date()[0]
 
 if __name__ == "__main__":
     unittest.main()

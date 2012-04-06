@@ -1,6 +1,6 @@
-import re
 import json
 from base64 import b64decode
+from email.utils import parsedate_tz
 
 
 class PostmarkInbound(object):
@@ -14,30 +14,17 @@ class PostmarkInbound(object):
     def subject(self):
         return self.source['Subject']
 
-    def from_name(self):
-        re1 = '(".*?")'
-        rg = re.compile(re1, re.IGNORECASE | re.DOTALL)
-        m = rg.search(self.source['From'])
-        if m:
-            return m.group(1).replace('"', '')
-        return ''
-
-    def from_email(self):
-        re1 = '([\\w+]+(?:\\.[\\w+]+)*@(?:[\\w]+\\.)+[a-zA-Z]{2,7})'
-        rg = re.compile(re1, re.IGNORECASE | re.DOTALL)
-        m = rg.search(self.source['From'])
-        if m:
-            return m.group(1)
-        return ''
+    def sender(self):
+        return self.source['FromFull']
 
     def to(self):
-        return self.source['To']
+        return self.source['ToFull']
 
     def bcc(self):
         return self.source['Bcc']
 
     def cc(self):
-        return self.source['Cc']
+        return self.source['CcFull']
 
     def reply_to(self):
         return self.source['ReplyTo']
@@ -57,14 +44,7 @@ class PostmarkInbound(object):
     def html_body(self):
         return self.source['HtmlBody']
 
-    def spam(self, name='X-Spam-Status'):
-        for header in self.source['Headers']:
-            for key, value in header.iteritems():
-                if key == name:
-                    return value
-        return False
-
-    def headers(self, name='Date'):
+    def headers(self, name='Message-ID'):
         for header in self.source['Headers']:
             if header['Name'] == name:
                 return header['Value']
@@ -80,6 +60,9 @@ class PostmarkInbound(object):
         if not self.attachments():
             return False
         return True
+
+    def send_date(self):
+        return parsedate_tz(self.source['Date'])
 
 
 class Attachment(object):

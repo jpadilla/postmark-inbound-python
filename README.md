@@ -16,8 +16,8 @@ json_data = open('./tests/fixtures/valid_http_post.json').read()
 inbound = PostmarkInbound(json=json_data)
 
 # content
-inbound.from_name()
-inbound.from_email()
+inbound.subject()
+inbound.sender()
 inbound.to()
 inbound.bcc()
 inbound.tag()
@@ -26,6 +26,7 @@ inbound.mailbox_hash()
 inbound.reply_to()
 inbound.html_body()
 inbound.text_body()
+inbound.send_date()
 
 # headers
 inbound.headers()  # default to get Date
@@ -33,11 +34,10 @@ inbound.headers('MIME-Version')
 inbound.headers('Received-SPF')
 
 # spam
-inbound.spam() # default to get status
-inbound.spam('X-Spam-Checker-Version')
-inbound.spam('X-Spam-Score')
-inbound.spam('X-Spam-Tests')
-inbound.spam('X-Spam-Status')
+inbound.headers('X-Spam-Checker-Version')
+inbound.headers('X-Spam-Score')
+inbound.headers('X-Spam-Tests')
+inbound.headers('X-Spam-Status')
 
 # attachments
 inbound.has_attachments() # boolean
@@ -59,7 +59,7 @@ for a in attachments:
 # raw data
 inbound.json
 inbound.source
-``` 
+```
 
 Bug tracker
 -----------

@@ -10,43 +10,50 @@
         "Name": "chart2.png",
         "ContentLength": 1000
     }],
-    "Bcc": "FBI <hi@fbi.com>",
-    "Cc": "Your Mom <hithere@hotmail.com>",
-    "From": "\"Bob Bobson\" <bob@bob.com>",
+    "From": "bob@bob.com",
+    "FromFull": {
+        "Email": "bob@bob.com",
+        "Name": "Bob Bobson"
+    },
+    "To": "api-hash@inbound.postmarkapp.com",
+    "ToFull": [{
+        "Email": "api-hash@inbound.postmarkapp.com",
+        "Name": ""
+    }],
+    "Cc": "sample.cc@emailDomain.com, another.cc@emailDomain.com",
+    "CcFull": [{
+        "Email": "sample.cc@emailDomain.com",
+        "Name": "Full name"
+    }, {
+        "Email": "another.cc@emailDomain.com",
+        "Name": "Another Cc"
+    }],
+    "Bcc": "hi@fbi.com",
+    "Date": "Thu, 5 Apr 2012 16:59:01 +0200",
     "Headers": [{
+        "Name": "X-Spam-Checker-Version",
+        "Value": "SpamAssassin 3.3.1 (2010-03-16) onrs-ord-pm-inbound1.wildbit.com"
+    }, {
+        "Name": "X-Spam-Status",
+        "Value": "No"
+    }, {
+        "Name": "X-Spam-Score",
+        "Value": "-0.1"
+    }, {
+        "Name": "X-Spam-Tests",
+        "Value": "DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,SPF_PASS"
+    }, {
         "Name": "Received-SPF",
-        "Value": "None (no SPF record) identity=mailfrom; client-ip=209.85.212.52; helo=mail-vw0-f52.google.com; envelope-from=bob@bob.com; receiver=4e8d6dec234dd90018e7bfd2b5d79107@inbound.postmarkapp.com"
+        "Value": "Pass (sender SPF authorized) identity=mailfrom; client-ip=209.85.160.180; helo=mail-gy0-f180.google.com; envelope-from=myUser@theirDomain.com; receiver=451d9b70cf9364d23ff6f9d51d870251569e+ahoy@inbound.postmarkapp.com"
+    }, {
+        "Name": "DKIM-Signature",
+        "Value": "v=1; a=rsa-sha256; c=relaxed\/relaxed;        d=wildbit.com; s=google;        h=mime-version:reply-to:date:message-id:subject:from:to:cc         :content-type;        bh=cYr\/+oQiklaYbBJOQU3CdAnyhCTuvemrU36WT7cPNt0=;        b=QsegXXbTbC4CMirl7A3VjDHyXbEsbCUTPL5vEHa7hNkkUTxXOK+dQA0JwgBHq5C+1u         iuAJMz+SNBoTqEDqte2ckDvG2SeFR+Edip10p80TFGLp5RucaYvkwJTyuwsA7xd78NKT         Q9ou6L1hgy\/MbKChnp2kxHOtYNOrrszY3JfQM="
     }, {
         "Name": "MIME-Version",
         "Value": "1.0"
     }, {
-        "Name": "Date",
-        "Value": "Thu, 31 Mar 2011 12:01:17 -0400"
-    }, {
         "Name": "Message-ID",
-        "Value": "<AANLkTin3nR52muA3Pner1eoLo6GLQz_5iZLTPvwEjZNu@mail.gmail.com>"
-    }, {
-        "Name": "Subject",
-        "Value": "Hi There"
-    }, {
-        "Name": "From",
-        "Value": "Bob Bobson <bob@bob.com>"
-    }, {
-        "Name": "To",
-        "Value": "api-hash@inbound.postmarkapp.com"
-    }, {
-        "Name": "Content-Type",
-        "Value": "multipart\/mixed"
-    }, {
-        "X-Spam-Checker-Version": "SpamAssassin 3.3.1 (2010-03-16) on rs-mail1"
-    }, {
-        "X-Spam-Status": "No"
-    }, {
-        "X-Spam-Score": "-0.8"
-    }, {
-        "X-Spam-Tests": "DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW"
-    }, {
-        "Received-SPF": "Pass (sender SPF authorized) identity=mailfrom; client-ip=209.85.160.42; helo=mail-pw0-f42.google.com; envelope-from=support@postmarkapp.com; receiver=451d9b70cf9364d23ff6f9d51d870251569e+ahoy@inbound.postmarkapp.com "
+        "Value": "<CAGXpo2WKfxHWZ5UFYCR3H_J9SNMG+5AXUovfEFL6DjWBJSyZaA@mail.gmail.com>"
     }],
     "HtmlBody": "<p>We no speak americano</p>",
     "MailboxHash": "moitoken",
@@ -54,6 +61,5 @@
     "ReplyTo": "new-comment+sometoken@yeah.com",
     "Subject": "Hi There",
     "Tag": "yourit",
-    "TextBody": "\nThis is awesome!\n\n",
-    "To": "api-hash@inbound.postmarkapp.com"
+    "TextBody": "\nThis is awesome!\n\n"
 }
