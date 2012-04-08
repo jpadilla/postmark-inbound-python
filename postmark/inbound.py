@@ -1,6 +1,7 @@
 import json
 from base64 import b64decode
-from email.utils import parsedate_tz
+from datetime import datetime
+from email.utils import mktime_tz, parsedate_tz
 
 
 class PostmarkInbound(object):
@@ -62,7 +63,14 @@ class PostmarkInbound(object):
         return True
 
     def send_date(self):
-        return parsedate_tz(self.source.get('Date'))
+        date = None
+        rfc_2822 = self.source.get('Date')
+        if rfc_2822:
+            try:
+                date = datetime.fromtimestamp(mktime_tz(parsedate_tz(rfc_2822)))
+            except:
+                pass
+        return date
 
 
 class Attachment(object):

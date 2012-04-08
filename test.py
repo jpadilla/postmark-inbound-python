@@ -93,7 +93,7 @@ class PostmarkInboundTest(unittest.TestCase):
         assert True == os.path.exists('./tests/chart2.png')
 
     def test_send_date(self):
-        assert 2012 == self.inbound.send_date()[0]
+        assert 2012 == self.inbound.send_date().year
 
 if __name__ == "__main__":
     unittest.main()
