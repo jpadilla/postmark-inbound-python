@@ -12,47 +12,47 @@ class PostmarkInbound(object):
         self.source = json.loads(self.json)
 
     def subject(self):
-        return self.source['Subject']
+        return self.source.get('Subject')
 
     def sender(self):
-        return self.source['FromFull']
+        return self.source.get('FromFull')
 
     def to(self):
-        return self.source['ToFull']
+        return self.source.get('ToFull')
 
     def bcc(self):
-        return self.source['Bcc']
+        return self.source.get('Bcc')
 
     def cc(self):
-        return self.source['CcFull']
+        return self.source.get('CcFull')
 
     def reply_to(self):
-        return self.source['ReplyTo']
+        return self.source.get('ReplyTo')
 
     def mailbox_hash(self):
-        return self.source['MailboxHash']
+        return self.source.get('MailboxHash')
 
     def tag(self):
-        return self.source['Tag']
+        return self.source.get('Tag')
 
     def message_id(self):
-        return self.source['MessageID']
+        return self.source.get('MessageID')
 
     def text_body(self):
-        return self.source['TextBody']
+        return self.source.get('TextBody')
 
     def html_body(self):
-        return self.source['HtmlBody']
+        return self.source.get('HtmlBody')
 
     def headers(self, name='Message-ID'):
-        for header in self.source['Headers']:
-            if header['Name'] == name:
-                return header['Value']
+        for header in self.source.get('Headers'):
+            if header.get('Name') == name:
+                return header.get('Value')
         return None
 
     def attachments(self):
         attachments = []
-        for attachment in self.source['Attachments']:
+        for attachment in self.source.get('Attachments'):
             attachments.append(Attachment(attachment))
         return attachments
 
@@ -62,7 +62,7 @@ class PostmarkInbound(object):
         return True
 
     def send_date(self):
-        return parsedate_tz(self.source['Date'])
+        return parsedate_tz(self.source.get('Date'))
 
 
 class Attachment(object):
@@ -71,16 +71,16 @@ class Attachment(object):
         self.attachment = attachment
 
     def name(self):
-        return self.attachment['Name']
+        return self.attachment.get('Name')
 
     def content_type(self):
-        return self.attachment['ContentType']
+        return self.attachment.get('ContentType')
 
     def content_length(self):
-        return self.attachment['ContentLength']
+        return self.attachment.get('ContentLength')
 
     def read(self):
-        return b64decode(self.attachment['Content'])
+        return b64decode(self.attachment.get('Content'))
 
     def download(self, directory='', allowed_content_types=[], max_content_length=''):
         if len(directory) == 0:
