@@ -8,7 +8,7 @@ Usage
 -----
 
 ``` python
-from postmark import PostmarkInbound
+from postmark.inbound import PostmarkInbound
 
 
 # load json
