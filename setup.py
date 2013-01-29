@@ -8,7 +8,7 @@ long_description = open(readme).read()
 
 setup(
     name='python-postmark-inbound',
-    version='0.1',
+    version='0.1.1',
     packages=find_packages(),
     author='José Padilla',
     author_email='jpadilla@webapplicate.com',
