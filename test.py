@@ -1,6 +1,6 @@
 import os.path
 import unittest
-from postmark.inbound import PostmarkInbound
+from postmark_inbound import PostmarkInbound
 
 
 class PostmarkInboundTest(unittest.TestCase):
