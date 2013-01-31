@@ -75,7 +75,6 @@ for a in attachments:
 	a.content_type()
 	a.content_length()
 	a.download('./tests/', ['image/png'], '10000')
-}
 
 # raw data
 inbound.json
