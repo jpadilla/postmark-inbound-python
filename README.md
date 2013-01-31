@@ -1,14 +1,35 @@
 POSTMARK INBOUND HOOK
 =====================
 
-This is a simple API wrapper for Postmark Inbound Hook (http://developer.postmarkapp.com/developer-inbound.html) in Python inspired by [jjaffeux](https://github.com/jjaffeux/) [PHP API wrapper](https://github.com/jjaffeux/postmark-inbound-php).
+This is a simple API wrapper for [Postmark Inbound Hook](http://developer.postmarkapp.com/developer-inbound.html)
+in Python inspired by [jjaffeux](https://github.com/jjaffeux/postmark-inbound-php).
+
+## Install
+
+Using Github:
+
+```
+git clone git@github.com:jpadilla/postmark-inbound-python.git
+```
+
+Using pip:
+
+```
+pip install python-postmark-inbound
+```
+
+Using easy_install:
+
+```
+easy_install python-postmark-inbound
+```
 
 
 Usage
 -----
 
 ``` python
-from postmark.inbound import PostmarkInbound
+from postmark_inbound import PostmarkInbound
 
 
 # load json
