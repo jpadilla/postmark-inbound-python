@@ -2,6 +2,7 @@ import json
 from base64 import b64decode
 from datetime import datetime
 from email.utils import mktime_tz, parsedate_tz
+from email.encoders import encode_base64
 
 
 class PostmarkInbound(object):
@@ -51,10 +52,13 @@ class PostmarkInbound(object):
                 return header.get('Value')
         return None
 
-    def attachments(self):
+    def attachments(self, as_mime=False):
         attachments = []
         for attachment in self.source.get('Attachments', []):
-            attachments.append(Attachment(attachment))
+            new_attachment = Attachment(attachment)
+            if as_mime:
+                new_attachment = new_attachment.to_mime()
+            attachments.append(new_attachment)
         return attachments
 
     def has_attachments(self):
@@ -89,6 +93,20 @@ class Attachment(object):
 
     def read(self):
         return b64decode(self.attachment.get('Content'))
+
+    def to_mime(self):
+        contenttype = self.attachment.get('ContentType').split('/')
+        try:
+            maintype = contenttype[0]
+            subtype = contenttype[1]
+        except IndexError:
+            raise ValueError('Invalid ContentType')
+        mime = MIMEBase(maintype, subtype)
+        mime.set_payload(self.read())
+        encode_base64(mime)
+        mime.add_header(
+                'Content-Disposition', 'attachment', filename=self.name())
+        return mime
 
     def download(self, directory='', allowed_content_types=[], max_content_length=''):
         if len(directory) == 0:
