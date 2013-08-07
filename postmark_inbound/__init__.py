@@ -53,7 +53,7 @@ class PostmarkInbound(object):
 
     def attachments(self):
         attachments = []
-        for attachment in self.source.get('Attachments'):
+        for attachment in self.source.get('Attachments', []):
             attachments.append(Attachment(attachment))
         return attachments
 
