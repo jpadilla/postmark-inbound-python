@@ -2,6 +2,7 @@ import json
 from base64 import b64decode
 from datetime import datetime
 from email.utils import mktime_tz, parsedate_tz
+from email.mime.base import MIMEBase
 from email.encoders import encode_base64
 
 
