@@ -1,4 +1,4 @@
-POSTMARK INBOUND HOOK
+Postmark Inbound Hook [![Build Status](https://travis-ci.org/jpadilla/postmark-inbound-python.png?branch=master)](https://travis-ci.org/jpadilla/postmark-inbound-python)
 =====================
 
 This is a simple API wrapper for [Postmark Inbound Hook](http://developer.postmarkapp.com/developer-inbound.html)
