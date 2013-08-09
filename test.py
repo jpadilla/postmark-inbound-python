@@ -1,6 +1,6 @@
 import os.path
 import unittest
-from postmark_inbound import PostmarkInbound
+from postmark_inbound import PostmarkInbound, MIMEBase
 
 
 class PostmarkInboundTest(unittest.TestCase):
@@ -91,6 +91,17 @@ class PostmarkInboundTest(unittest.TestCase):
 
         assert True == os.path.exists('./tests/chart.png')
         assert True == os.path.exists('./tests/chart2.png')
+
+    def test_attachment_to_mime(self):
+        for a in self.inbound.attachments():
+            mime = a.to_mime()
+            assert isinstance(mime, MIMEBase)
+            assert mime.get_filename() == a.name()
+            assert mime.get_content_type() == a.content_type()
+
+    def test_attachments_as_mime(self):
+        for a in self.inbound.attachments(as_mime=True):
+            assert isinstance(a, MIMEBase)
 
     def test_send_date(self):
         assert 2012 == self.inbound.send_date().year
