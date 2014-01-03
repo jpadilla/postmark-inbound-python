@@ -117,7 +117,7 @@ class Attachment(object):
             raise Exception('Postmark Inbound Error: the file size is over %s' % max_content_length)
 
         if allowed_content_types and self.content_type() not in allowed_content_types:
-            raise Exception('Postmark Inbound Ereror: the file type %s is not allowed' % self.content_type())
+            raise Exception('Postmark Inbound Error: the file type %s is not allowed' % self.content_type())
 
         try:
             attachment = open('%s%s' % (directory, self.name()), 'w')
