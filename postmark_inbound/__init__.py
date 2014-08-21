@@ -109,7 +109,7 @@ class Attachment(object):
                 'Content-Disposition', 'attachment', filename=self.name())
         return mime
 
-    def download(self, directory='', allowed_content_types=[], max_content_length=''):
+    def download(self, directory='', allowed_content_types=[], max_content_length='', mode='w'):
         if len(directory) == 0:
             raise Exception('Postmark Inbound Error: you must provide the upload path')
 
@@ -120,7 +120,7 @@ class Attachment(object):
             raise Exception('Postmark Inbound Error: the file type %s is not allowed' % self.content_type())
 
         try:
-            attachment = open('%s%s' % (directory, self.name()), 'w')
+            attachment = open('%s%s' % (directory, self.name()), mode)
             attachment.write(self.read())
         except IOError:
             raise Exception('Postmark Inbound Error: cannot save the file, check path and rights.')
