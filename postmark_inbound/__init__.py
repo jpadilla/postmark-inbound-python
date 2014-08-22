@@ -6,6 +6,12 @@ from email.mime.base import MIMEBase
 from email.encoders import encode_base64
 
 
+__version__ = '1.0.0'
+
+# Version synonym
+VERSION = __version__
+
+
 class PostmarkInbound(object):
 
     def __init__(self, **kwargs):
