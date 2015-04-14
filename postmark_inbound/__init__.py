@@ -6,7 +6,7 @@ from email.mime.base import MIMEBase
 from email.encoders import encode_base64
 
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 # Version synonym
 VERSION = __version__
