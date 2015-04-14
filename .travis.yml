@@ -2,5 +2,7 @@ language: python
 sudo: false
 python:
   - "2.7"
+  - "3.3"
+  - "3.4"
 # command to run tests
 script: python test.py
