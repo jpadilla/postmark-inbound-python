@@ -126,6 +126,8 @@ class Attachment(object):
             raise Exception('Postmark Inbound Error: the file type %s is not allowed' % self.content_type())
 
         try:
+            if 'b' not in mode:
+                mode += 'b'
             attachment = open('%s%s' % (directory, self.name()), mode)
             attachment.write(self.read())
         except IOError:
